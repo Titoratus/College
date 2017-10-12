@@ -1,4 +1,7 @@
 <?php
+	//Защита от открытия файла через адресную строку
+	define("access", true);
+	
 	$page = "Группы";
 	include("../header.php");
 
@@ -13,6 +16,4 @@
 	<?php include("../courses.php"); ?>
 </main>
 
-<?php
-	include("../footer.php");
-?>
+<?php include("../footer.php"); ?>

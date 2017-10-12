@@ -1,4 +1,5 @@
 <?php
+	define("access", true);
 	$page = "Выходные";
 	include("../header.php");
 ?>

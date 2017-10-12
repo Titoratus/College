@@ -1,4 +1,5 @@
 <?php
+	define("access", true);
 	$page = "Посещение";
 	include("../header.php");
 ?>

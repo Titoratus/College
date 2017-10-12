@@ -6,7 +6,7 @@ html {
   height: 100%; }
 
 body {
-  background: linear-gradient(green, crimson); font-size: 14px;
+ font-size: 14px;
   height: 100%;
   width: 100%; }
 
@@ -14,7 +14,7 @@ body {
   font-size: 14px; }
 
 .active {
-  color: green; }
+  color: #fff; background: crimson;}
 
 .header_infobar {
   font-size: 14px; }

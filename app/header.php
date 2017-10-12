@@ -1,3 +1,5 @@
+<?php defined("access") or die("У вас не прав!"); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
