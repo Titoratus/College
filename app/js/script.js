@@ -14,3 +14,13 @@ $(function(){
     	else return true;
     });
 });
+
+$(document).on('click', '.label',function(e) {
+	if this has class active else
+	var data = $(this).attr("for");
+	$.ajax({
+	       data: "date=" + data,
+	       type: "post",
+	       url: "../upd_wknd.php"
+	});
+});
