@@ -11,7 +11,6 @@
 
 <main class="main">
 	<h1>Выходные</h1>
-
 	<?php
 		//-----------ВЫВОД КАЛЕНДАРЯ-----------
 		function getDates($year)
@@ -28,7 +27,6 @@
 
 		        $dates[$month][$wk][$wkDay] = $day;
 		    } 
-
 		    return $dates;   
 		}
 	?>
@@ -37,7 +35,15 @@
 	$dates = getDates($year_now); 
 	$weekdays = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
 	$rusweeks = array('Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'); ?>
+
 	<?php
+		//Извлекаем все выходные и проверяем на соответствие
+		$query = mysqli_query($con, "SELECT * FROM weekends");
+		$freedays = array();
+		while($row = mysqli_fetch_array($query)){
+			$freedays[$row['date']] = 1;
+		}
+
 		//Номер месяца
 		$k = 0;
 		foreach($dates as $weeks) { $k=$k+1; ?>
@@ -52,7 +58,7 @@
 	            <?php
 	            	if(isset($days[$day])){
 	            		$cur_date = date('d', mktime(0,0,0,1,$days[$day],$year_now)).date('m', mktime(0,0,0,$k,$days[$day],$year_now)).substr($year_now, 2);
-	            		echo "<label class='label' for='".$cur_date."'>".$days[$day]."</label><input id='".$cur_date."' type='checkbox'>";
+	            		echo "<span class='weekend ".(isset($freedays[$cur_date]) ? "active" : "")."' for='".$cur_date."'>".$days[$day]."</span>";
 	            	}
 	            	else echo '&nbsp';
 	            ?>
@@ -63,6 +69,4 @@
 	</table>
 	<?php } ?>
 </main>
-<?php
-?>
 <?php include("../footer.php"); ?>
