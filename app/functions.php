@@ -12,13 +12,15 @@
 			$group_ID = $_POST["course_$i"];
 			//Заносим в таблицу
 			$query = mysqli_query($con, "INSERT INTO groups (`group_ID`, `course`) VALUES ('$group_ID', '$i')");
-			//Добавляем группу к учителю
-			$nickname = $_SESSION["nickname"];
-			$query = mysqli_query($con, "SELECT * FROM teachers WHERE nickname='$nickname'");
-			$query = mysqli_fetch_array($query);
-			$t_ID = $query["teacher_ID"];
-			$query = mysqli_query($con, "INSERT INTO teacher_group (`teacher_ID`, `group_ID`) VALUES ('$t_ID', '$group_ID')");
-
+			
+			if($query){
+				//Добавляем группу к учителю
+				$nickname = $_SESSION["nickname"];
+				$query = mysqli_query($con, "SELECT * FROM teachers WHERE nickname='$nickname'");
+				$query = mysqli_fetch_array($query);
+				$t_ID = $query["teacher_ID"];
+				$query = mysqli_query($con, "INSERT INTO teacher_group (`teacher_ID`, `group_ID`) VALUES ('$t_ID', '$group_ID')");
+			}
 			//Вывод всех групп i-го курса
 			$query = mysqli_query($con, "SELECT * FROM groups WHERE course = '$i'");
 			while($row = mysqli_fetch_array($query)){						
@@ -26,7 +28,7 @@
 			}
 		?>
 			<form class="add_group" action="" method="POST">
-				<input type="text" name="<?php echo "course_$i"; ?>" required>
+				<input type="text" name="<?php echo "course_$i"; ?>" autocomplete="off" required>
 				<input type="submit" value="Добавить">
 			</form>		
 		<?php
@@ -48,14 +50,22 @@
 		}
 	}	
 
-		//Если добавили нового студента
-		/*if(isset($_POST["new_submit"])){
-				$group = $_GET["selected_group"];
-				$s_name = $_POST["new_s_name"];
-				$s_surname = $_POST["new_s_surname"];
-				$s_father = $_POST["new_s_father"];
-				$query = mysqli_query($con, "INSERT INTO students (`student_ID`, `s_name`, `s_surname`, `s_father`, `s_group`) VALUES (NULL, '$s_name', '$s_surname', '$s_father', '$group')");
-		}*/
+	//Если добавили нового студента
+	if(isset($_POST["new_s_name"])){
+			$group = $_POST["selected_group"];
+			$s_name = $_POST["new_s_name"];
+			$s_surname = $_POST["new_s_surname"];
+			$s_father = $_POST["new_s_father"];
+			$query = mysqli_query($con, "INSERT INTO students (`student_ID`, `s_name`, `s_surname`, `s_father`, `s_group`) VALUES (NULL, '$s_name', '$s_surname', '$s_father', '$group')");
+	}
+	//Если нажали удалить студента
+	if(isset($_POST["del_stud"])){
+		$s_ID = $_POST["del_stud"];
+		$query = mysqli_query($con, "SELECT s_group FROM students WHERE student_ID='$s_ID'");
+		$group = mysqli_fetch_array($query);
+		//Удаление
+		$query = mysqli_query($con, "DELETE FROM students WHERE student_ID='$s_ID'");
+	}
 
 	//Выбранная группа (вывод студентов)
 	if(isset($_POST["selected_group"])){
@@ -72,16 +82,16 @@
 		$s = 0;
 		while($row = mysqli_fetch_array($query)){
 			$s=$s+1;
-			echo "<tr><td>".$s."</td><td>".$row['s_surname']." ".$row['s_name']." ".$row['s_father']."<a href='?del_stud=".$row['student_ID']."'>Удалить</a></td></tr>";
+			echo "<tr><td>".$s."</td><td>".$row['s_surname']." ".$row['s_name']." ".$row['s_father']."<a class='del_stud' data-group='".$group."' data-student='".$row['student_ID']."'>Удалить</a></td></tr>";
 		}
 	?>
 </table>
 
-<form action="" method="POST">
-	<input type="text" name="new_s_surname" required>
-	<input type="text" name="new_s_name" required>
-	<input type="text" name="new_s_father" required>
-	<input type="submit" name="new_submit" value="Добавить">
+<form id="add_student" action="" method="POST">
+	<input type="text" name="new_s_surname" autocomplete="off" required>
+	<input type="text" data-group="<?php echo $group; ?>" name="new_s_name" autocomplete="off" required>
+	<input type="text" name="new_s_father" autocomplete="off" required>
+	<input type="submit" value="Добавить">
 </form>
 
 <?php } ?>

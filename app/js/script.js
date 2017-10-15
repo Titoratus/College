@@ -1,17 +1,38 @@
+function getChar(event) {
+  if (event.which == null) { // IE
+    if (event.keyCode < 32) return null; // спец. символ
+    return String.fromCharCode(event.keyCode)
+  }
+
+  if (event.which != 0 && event.charCode != 0) { // все кроме IE
+    if (event.which < 32) return null; // спец. символ
+    return String.fromCharCode(event.which); // остальные
+  }
+
+  return null; // спец. символ
+}
+
+//Название группы только из цифр!
+$(document).on('keypress', '.add_new_group', function(e) {
+  e = e || event;
+
+  if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+  var chr = getChar(e);
+
+  if (chr == null) return;
+
+  if (chr < '0' || chr > '9') {
+    return false;
+  }
+});
+
 $(function(){
     $('#logout').click(function(){
         if(confirm('Вы точно хотите выйти?')) {
             return true;
         }
         return false;
-    });
-
-    //При нажатии на активную ссылку в меню, запрос не отправляется
-    $(".menu_link").click(function(){
-    	if($(this).hasClass("active")){
-    		return false;
-    	}
-    	else return true;
     });
 });
 
@@ -80,6 +101,39 @@ $(document).on('submit', '.add_group', function(e) {
 	    data: form.serialize(),
 	    success: function(data) {
 				   form.parent().html(data);
+				 }
+	  });
+	  //отмена действия по умолчанию для кнопки submit
+	  e.preventDefault(); 
+});
+
+//Добавление студента
+$(document).on('submit', '#add_student', function(e) {
+	  var form = $(this);
+	  var group = $(this).find("input[name='new_s_name']").attr("data-group");
+	  group = "&selected_group="+group;
+	  $.ajax({
+	    type: "post",
+	    url: "../functions.php",
+	    data: form.serialize()+group,
+	    success: function(data) {
+				   $(".groups_table").html(data);
+				 }
+	  });
+	  //отмена действия по умолчанию для кнопки submit
+	  e.preventDefault(); 
+});
+
+//Удаление студента
+$(document).on('click', '.del_stud', function(e) {
+	  var student = "del_stud="+$(this).attr("data-student");
+	  student = student + "&selected_group="+$(this).attr("data-group");
+	  $.ajax({
+	    type: "post",
+	    url: "../functions.php",
+	    data: student,
+	    success: function(data) {
+				   $(".groups_table").html(data);
 				 }
 	  });
 	  //отмена действия по умолчанию для кнопки submit

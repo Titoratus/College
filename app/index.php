@@ -12,7 +12,7 @@
 ?>
 
 <form action="" method="POST">
-	<input type="text" name="login" required>
+	<input type="text" name="login" autocomplete="off" required>
 	<input type="password" name="password" required>
 	<input type="submit" name="submit" value="Войти">
 </form>
