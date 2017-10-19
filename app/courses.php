@@ -4,23 +4,44 @@
 ?>
 
 <div class="groups">
-	<?php for($i = 1; $i <= 4; $i++){ ?>
-		<div class="<?php echo "course_$i"; ?>">
-			<div><?php echo "$i курс"; ?></div>
-			<div class="course_content">
-				<?php
-					//Вывод всех групп i-го курса
-					$query = mysqli_query($con, "SELECT * FROM groups WHERE course = '$i'");
-					while($row = mysqli_fetch_array($query)){						
-						echo "<span data-group='".$row["group_ID"]."' class='course_name'>".$row['group_ID']."<a class='del_group' data-group='".$row['group_ID']."'>X</a></span>";
-					}
-				?>
-				<form class="add_group" action="" method="POST">
-					<input type="text" class="add_new_group" name="<?php echo "course_$i"; ?>" autocomplete="off" required>
+	<?php
+		$curator_ID = $_SESSION["curator_ID"];
+		$query = mysqli_query($con, "SELECT * FROM curator_group WHERE curator_ID = '$curator_ID'");
+		//Если нет группы
+		if(mysqli_num_rows($query)==0){
+			?>
+			<input class="new_group" placeholder="№ группы" maxlength="3" type="text">
+			<div style="display: none;" class="error"></div>
+			<?php
+		}
+		else {
+			$group = mysqli_fetch_array($query);
+			$group = $group["group_ID"];
+			?>
+			<div data-group="<?php echo $group; ?>" class="group_name"><?php echo $group; ?><span class="edit_group">edit</span></div>
+			<div class="groups_table">
+				<table>
+					<tr>
+						<th>№</th>
+						<th>ФИО</th>
+					</tr>
+					<?php
+						$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$group'");
+
+						$s = 0;
+						while($row = mysqli_fetch_array($query)){
+							$s=$s+1;
+							echo "<tr><td>".$s."</td><td>".$row['s_surname']." ".$row['s_name']." ".$row['s_father']."<a class='del_stud' data-group='".$group."' data-student='".$row['student_ID']."'>Удалить</a></td></tr>";
+						}
+					?>
+				</table>
+
+				<form id="add_student" action="" method="POST">
+					<input type="text" name="new_s_surname" autocomplete="off" required>
+					<input type="text" data-group="<?php echo $group; ?>" name="new_s_name" autocomplete="off" required>
+					<input type="text" name="new_s_father" autocomplete="off" required>
 					<input type="submit" value="Добавить">
-				</form>					
+				</form>
 			</div>
-		</div>
 	<?php } ?>
-	<div class="groups_table"></div>
 </div>

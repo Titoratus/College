@@ -32,10 +32,10 @@
 	<div class="header_infobar">
 		<?php
 			$nickname = $_SESSION["nickname"];
-			$query = mysqli_query($con, "SELECT * FROM teachers WHERE nickname = '$nickname'");
+			$query = mysqli_query($con, "SELECT * FROM curators WHERE nickname = '$nickname'");
 			$query = mysqli_fetch_array($query);
 
-			echo $query["t_surname"];
+			echo $query["c_surname"];
 		?>
 		<a id="logout" href="../logout.php">Выйти</a>
 	</div>

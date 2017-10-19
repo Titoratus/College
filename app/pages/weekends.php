@@ -34,7 +34,8 @@
 	$year_now = date('Y');
 	$dates = getDates($year_now); 
 	$weekdays = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
-	$rusweeks = array('Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'); ?>
+	$rusweeks = array('Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс');
+	$rusmonths = array('Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'); ?>
 
 	<?php
 		//Извлекаем все выходные и проверяем на соответствие
@@ -46,12 +47,15 @@
 
 		//Номер месяца
 		$k = 0;
-		foreach($dates as $weeks) { $k=$k+1; ?>
+		foreach($dates as $month => $weeks) { 
+			echo "<h2>".$rusmonths[$k]."</h2>";
+			$k=$k+1;
+		?>
 	<table>
 	    <tr>
 	        <th><?php echo implode('</th><th>', $rusweeks); ?></th>
 	    </tr>
-	    <?php foreach($weeks as $days){ ?>
+	    <?php foreach($weeks as $week => $days){ ?>
 	    <tr>
 	        <?php foreach($weekdays as $day){ ?>
 	        <td>

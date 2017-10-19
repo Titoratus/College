@@ -8,7 +8,7 @@
 	function deleteGroup($group){
 		global $con;
 		$query2 = mysqli_query($con, "DELETE FROM students WHERE s_group='$group'");
-		$query2 = mysqli_query($con, "DELETE FROM teacher_group WHERE group_ID='$group'");
+		$query2 = mysqli_query($con, "DELETE FROM curator_group WHERE group_ID='$group'");
 		$query2 = mysqli_query($con, "DELETE FROM groups WHERE group_ID = '$group'");
 	}	
 	//Удаление 4-го курса
@@ -30,15 +30,12 @@
 			$new_course = $i+1;
 			$add = mysqli_query($con, "INSERT INTO groups (`group_ID`, `course`) VALUES ('$new_group', '$new_course')");
 
-			//Добавляем к текущему преподавателю
-			$nickname = $_SESSION["nickname"];
-			$get_ID = mysqli_query($con, "SELECT * FROM teachers WHERE nickname='$nickname'");
-			$get_ID = mysqli_fetch_array($get_ID);
-			$t_ID = $get_ID["teacher_ID"];		
-			$add = mysqli_query($con, "INSERT INTO teacher_group (`teacher_ID`, `group_ID`) VALUES ('$t_ID', '$new_group')");
-
 			//Изменяем старое название группы на новое
 			$upd_group = mysqli_query($con, "UPDATE students SET s_group='$new_group' WHERE s_group='$old_group'");
+			$curator = mysqli_query($con, "SELECT * FROM curator_group WHERE group_ID='$old_group'");
+			$curator = mysqli_fetch_array($curator);
+			$curator = $curator["curator_ID"];
+			$upd_group = mysqli_query($con, "UPDATE curator_group SET group_ID='$new_group' WHERE curator_ID='$curator'");
 
 			//Удаляем старую группу
 			deleteGroup($old_group);

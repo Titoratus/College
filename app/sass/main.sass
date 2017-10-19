@@ -1,7 +1,6 @@
 *
 	margin: 0
 	padding: 0
-	font-size: 0
 
 html
 	height: 100%
@@ -10,13 +9,76 @@ body
 	font-size: 14px
 	height: 100%
 	width: 100%
+	font-family: Arial
+
+table
+	border-collapse: collapse
+	ul
+		list-style: none
+		background: #fff
+		box-shadow: 0 0 8px -1px #777
+		width: 200px
+		position: absolute
+		right: -195px
+		li
+			padding: 8px
+	td
+		border: 1px solid #ccc
+		padding: 6px
+		position: relative
 
 
 .menu_link
 	font-size: 14px
 
 .active
-	color: green
+	background: crimson
+	color: #fff
 
 .header_infobar
 	font-size: 14px
+
+.mark
+	left: 50%
+	top: 50%
+	cursor: pointer
+	background: none
+	border-radius: 20px
+	border: none
+	&::before
+		content: ""
+		display: block
+		position: absolute
+		width: 20px
+		height: 20px
+		right: 50%
+		top: 50%
+		margin-right: -10px
+		margin-top: -10px
+		background: #fff
+		border-radius: 20px
+	&:hover::before
+		background: #ccc
+	&:checked::before
+		background: #ccc
+	&:checked + ul
+		display: block
+		z-index: 100
+	&+ul
+		display: none
+		z-index: 100
+		li
+			cursor: pointer
+
+.m1::before
+	background: crimson
+.m2::before
+	background: blue
+.m3::before
+	background: green
+
+.date_off
+	color: #a9a9a9
+	cursor: default
+.date_on
+	cursor: pointer

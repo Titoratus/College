@@ -1,4 +1,5 @@
 <?php
+	//Нужно для защиты include файлов при прямом обращении
 	define("access", true);
 	$page = "Вход";
 
@@ -21,17 +22,21 @@
 	//Если нажали submit
 	if(isset($_POST["submit"])){
 		$login = $_POST["login"];
-		$password = $_POST["password"];
+		$password = md5($_POST["password"]);
 
 		//Делаем выборку по нику
-		$query = mysqli_query($con, "SELECT * FROM teachers WHERE nickname = '$login'");
+		$query = mysqli_query($con, "SELECT * FROM curators WHERE nickname = '$login'");
 		$query = mysqli_fetch_array($query);
 
 		//Если такой есть
 		if(!empty($query["nickname"])){
 			//И совпадает пароль, то идём на главную
-			if($query["password"] == $_POST["password"]){					
+			if($query["password"] == $password){		
 				$_SESSION["nickname"] = $_POST["login"];
+				$nickname = $_POST["login"];
+				$query = mysqli_query($con, "SELECT * FROM curators WHERE nickname='$nickname'");
+				$query = mysqli_fetch_array($query);
+				$_SESSION["curator_ID"] = $query["curator_ID"];
 				header("Location: pages/groups.php");	
 			}
 			else echo "Неверный пароль!";
