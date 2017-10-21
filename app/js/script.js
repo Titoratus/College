@@ -13,7 +13,7 @@ function getChar(event) {
 }
 
 //Название группы только из цифр!
-$(document).on('keypress', '.new_group', function(e) {
+$(document).on('keypress', '.new_group, .mark', function(e) {
   e = e || event;
 
   if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -87,8 +87,8 @@ $(document).on('keypress', '.new_group', function(e){
 			var course = "&course="+group.charAt(1);
 
 			//Если курс больше 4
-			if(group.charAt(1) > 4){
-				$(".error").html("Курс не должен быть больше 4!");
+			if(group.charAt(1) > 4 || group.charAt(1) < 1){
+				$(".error").html("Курс должен быть от 1 до 4!");
 				$(".error").fadeIn();
 				return false;
 			}
@@ -138,8 +138,8 @@ $(document).on('submit', '#add_student', function(e) {
 
 //Удаление студента
 $(document).on('click', '.del_stud', function(e) {
-	  var student = "del_stud="+$(this).attr("data-student");
-	  student = student + "&group="+$(this).attr("data-group");
+	  var student = "del_stud="+$(this).parent().attr("data-student");
+	  student = student + "&group="+$(this).parent().attr("data-group");
 	  $.ajax({
 	    type: "post",
 	    url: "../functions.php",
@@ -150,6 +150,29 @@ $(document).on('click', '.del_stud', function(e) {
 	  });
 	  //отмена действия по умолчанию для кнопки submit
 	  e.preventDefault(); 
+});
+
+//Редактирование студента
+$(document).on('click', '.edit_stud', function(e) {
+	  var old = $(this).parent().find("span").text();
+	  $(this).parent().html("<input type='text' class='stud_new_name' value='"+old+"'>");
+});
+$(document).on('keyup blur', '.stud_new_name', function(e) {
+		if (e.type == 'blur' || e.keyCode == '13'){
+		  var student = "edit_stud="+$(this).parent().attr("data-student");
+		  student += "&group="+$(this).parent().attr("data-group");
+		  student += "&new_name="+$(this).val();
+		  $.ajax({
+		    type: "post",
+		    url: "../functions.php",
+		    data: student,
+		    success: function(data) {
+					   $(".groups_table").html(data);
+					 }
+		  });
+		  //отмена действия по умолчанию для кнопки submit
+		  e.preventDefault();
+		}
 });
 
 
@@ -170,6 +193,9 @@ $(document).on("click", ".date_on", function(){
 });
 
 $(document).on("blur", ".mark", function(){
+	var old = $(this).val();
+	$(this).parent().parent().find(".mark").val("");
+	$(this).val(old);
 	var mark = "new_mark="+$(this).val();
 	var student = "&mark_st="+$(this).attr("data-student");
 	var date = "&mark_date="+$(this).attr("data-date");

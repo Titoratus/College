@@ -84,10 +84,10 @@
             	if(isset($days[$day])){
             		//Перебор всех дней месяца
             		$date = $days[$day].date('m').date('y');
-            		$c_ID = $_SESSION["curator_ID"];
-            		//Если есть отметки в данную дату и у данного куратора
-            		$query = mysqli_query($con, "SELECT * FROM attend WHERE date='$date' AND curator_ID='$c_ID'");
-            		echo "<span ".($days[$day] == date('d') ? "class='active date_on' data-date='$date'" : (mysqli_num_rows($query) == 0 ? "class='date_off'" : "class='date_on' data-date='$date'")).">".$days[$day]."</span>";
+            		$curr_date = date('d').date('m').date('y');
+								$query = mysqli_query($con, "SELECT * FROM weekends WHERE date='$date'");
+								      		
+            		echo "<span ".($days[$day] == date('d') ? "class='active date_on' data-date='$date'" : (($date > $curr_date || mysqli_num_rows($query) != 0) ? "class='date_off'" : "class='date_on' data-date='$date'")).">".$days[$day]."</span>";
             	}
             ?>
         </td>               
@@ -136,10 +136,15 @@
 					<!--Номер пп-->
 					<td><?php echo $k; ?></td>
 					<!--ФИО-->
-					<td><?php echo $row["s_surname"]." ".$row["s_name"]." ".$row["s_father"]; ?></td>
-					<td><input type="text" data-student="<?php echo $row["student_ID"]; ?>" class="mark" name="P" data-date="<?php echo $curr_date; ?>" <?php echo (isset($attend[$row["student_ID"]]["B"]) ? "value='".$attend[$row["student_ID"]]["P"]."'" : " ") ?>></td>
-					<td><input type="text" data-student="<?php echo $row["student_ID"]; ?>" class="mark" name="U" data-date="<?php echo $curr_date; ?>" <?php echo (isset($attend[$row["student_ID"]]["B"]) ? "value='".$attend[$row["student_ID"]]["U"]."'" : " ") ?>></td>
-					<td><input type="text" data-student="<?php echo $row["student_ID"]; ?>" class="mark" name="B" data-date="<?php echo $curr_date; ?>" <?php echo (isset($attend[$row["student_ID"]]["B"]) ? "value='".$attend[$row["student_ID"]]["B"]."'" : " ") ?>></td>
+					<td><?php echo $row["s_name"]; ?></td>
+					<?php
+						(isset($attend[$row["student_ID"]]["P"])) ? $P = $attend[$row["student_ID"]]["P"] : $P=0;
+						(isset($attend[$row["student_ID"]]["U"])) ? $U = $attend[$row["student_ID"]]["U"] : $U=0;
+						(isset($attend[$row["student_ID"]]["B"])) ? $B = $attend[$row["student_ID"]]["B"] : $B=0;
+					?>										
+					<td><input type="text" maxlength="2" data-student="<?php echo $row["student_ID"]; ?>" data-date="<?php echo $curr_date; ?>" class="mark" name="P" <?php echo ((isset($P) && $P != 0) ? "value='".$P."'" : " ") ?>"></td>
+					<td><input type="text" maxlength="2" data-student="<?php echo $row["student_ID"]; ?>" data-date="<?php echo $curr_date; ?>" class="mark" name="U" <?php echo ((isset($U) && $U != 0) ? "value='".$U."'" : " ") ?>"></td>
+					<td><input type="text" maxlength="2" data-student="<?php echo $row["student_ID"]; ?>" data-date="<?php echo $curr_date; ?>" class="mark" name="B" <?php echo ((isset($B) && $B != 0) ? "value='".$B."'" : " ") ?>"></td>
 				</tr>
 				<?php } ?>	
 	</table>

@@ -42,15 +42,13 @@
 				$s = 0;
 				while($row = mysqli_fetch_array($query)){
 					$s=$s+1;
-					echo "<tr><td>".$s."</td><td>".$row['s_surname']." ".$row['s_name']." ".$row['s_father']."<a class='del_stud' data-group='".$group."' data-student='".$row['student_ID']."'>Удалить</a></td></tr>";
+					echo "<tr><td>".$s."</td><td data-group='".$group."' data-student='".$row['student_ID']."'>".$row['s_name']."<a class='edit_stud'>Редакт</a><a class='del_stud'>Удалить</a></td></tr>";
 				}
 			?>
 		</table>
 
 		<form id="add_student" action="" method="POST">
-			<input type="text" name="new_s_surname" autocomplete="off" required>
 			<input type="text" data-group="<?php echo $group; ?>" name="new_s_name" autocomplete="off" required>
-			<input type="text" name="new_s_father" autocomplete="off" required>
 			<input type="submit" value="Добавить">
 		</form>		
 	</div>
@@ -80,14 +78,13 @@
 		}
 	}
 
-	if(isset($_POST["new_s_name"]) || isset($_POST["del_stud"])){
+	if(isset($_POST["new_s_name"]) || isset($_POST["del_stud"]) || isset($_POST["edit_stud"])){
 		//Если добавили нового студента
 		if(isset($_POST["new_s_name"])){
 			$group = $_POST["selected_group"];
-			$s_name = $_POST["new_s_name"];
-			$s_surname = $_POST["new_s_surname"];
-			$s_father = $_POST["new_s_father"];
-			$query = mysqli_query($con, "INSERT INTO students (`student_ID`, `s_name`, `s_surname`, `s_father`, `s_group`) VALUES (NULL, '$s_name', '$s_surname', '$s_father', '$group')");
+			//Первые буквы в верхний регистр
+			$s_name = mb_convert_case($_POST["new_s_name"], MB_CASE_TITLE);
+			$query = mysqli_query($con, "INSERT INTO students (`student_ID`, `s_name`, `s_group`) VALUES (NULL, '$s_name', '$group')");
 		}
 		//Если нажали удалить студента
 		if(isset($_POST["del_stud"])){
@@ -95,7 +92,15 @@
 			$query = mysqli_query($con, "SELECT s_group FROM students WHERE student_ID='$s_ID'");
 			$group = $_POST["group"];
 			//Удаление
-			$query = mysqli_query($con, "DELETE FROM students WHERE student_ID='$s_ID'");
+			$query = mysqli_query($con, "DELETE FROM attend WHERE student_ID='$s_ID'");
+			$query = mysqli_query($con, "DELETE FROM students WHERE student_ID='$s_ID'");			
+		}
+		//Если нажали редактировать студента
+		if(isset($_POST["edit_stud"])){
+			$s_ID = $_POST["edit_stud"];
+			$group = $_POST["group"];
+			$new_name = $s_name = mb_convert_case($_POST["new_name"], MB_CASE_TITLE);
+			$query = mysqli_query($con, "UPDATE students SET s_name='$new_name' WHERE student_ID='$s_ID'");
 		}
 ?>
 	<table>
@@ -109,15 +114,13 @@
 			$s = 0;
 			while($row = mysqli_fetch_array($query)){
 				$s=$s+1;
-				echo "<tr><td>".$s."</td><td>".$row['s_surname']." ".$row['s_name']." ".$row['s_father']."<a class='del_stud' data-group='".$group."' data-student='".$row['student_ID']."'>Удалить</a></td></tr>";
+				echo "<tr><td>".$s."</td><td data-group='".$group."' data-student='".$row['student_ID']."'><span>".$row['s_name']."</span><a class='edit_stud'>Редакт</a><a class='del_stud'>Удалить</a></td></tr>";
 			}
 		?>
 	</table>
 
 	<form id="add_student" action="" method="POST">
-		<input type="text" name="new_s_surname" autocomplete="off" required>
 		<input type="text" data-group="<?php echo $group; ?>" name="new_s_name" autocomplete="off" required>
-		<input type="text" name="new_s_father" autocomplete="off" required>
 		<input type="submit" value="Добавить">
 	</form>
 <?php	} ?>
@@ -181,10 +184,16 @@
 					<!--Номер пп-->
 					<td><?php echo $k; ?></td>
 					<!--ФИО-->
-					<td><?php echo $row["s_surname"]." ".$row["s_name"]." ".$row["s_father"]; ?></td>
-					<td><input type="text" data-student="<?php echo $row["student_ID"]; ?>" name="P" data-date="<?php echo $curr_date; ?>" class="mark P" value="<?php echo $attend[$row["student_ID"]]["P"]; ?>"></td>
-					<td><input type="text" data-student="<?php echo $row["student_ID"]; ?>" name="U" data-date="<?php echo $curr_date; ?>" class="mark U" value="<?php echo $attend[$row["student_ID"]]["U"]; ?>"></td>
-					<td><input type="text" data-student="<?php echo $row["student_ID"]; ?>" name="B" data-date="<?php echo $curr_date; ?>" class="mark B" value="<?php echo $attend[$row["student_ID"]]["B"]; ?>"></td>
+					<td><?php echo $row["s_name"]; ?></td>
+					
+					<?php
+						(isset($attend[$row["student_ID"]]["P"])) ? $P = $attend[$row["student_ID"]]["P"] : $P=0;
+						(isset($attend[$row["student_ID"]]["U"])) ? $U = $attend[$row["student_ID"]]["U"] : $U=0;
+						(isset($attend[$row["student_ID"]]["B"])) ? $B = $attend[$row["student_ID"]]["B"] : $B=0;
+					?>										
+					<td><input type="text" maxlength="3" data-student="<?php echo $row["student_ID"]; ?>" data-date="<?php echo $curr_date; ?>" class="mark" name="P" <?php echo ((isset($P) && $P != 0) ? "value='".$P."'" : " ") ?>"></td>
+					<td><input type="text" maxlength="3" data-student="<?php echo $row["student_ID"]; ?>" data-date="<?php echo $curr_date; ?>" class="mark" name="U" <?php echo ((isset($U) && $U != 0) ? "value='".$U."'" : " ") ?>"></td>
+					<td><input type="text" maxlength="3" data-student="<?php echo $row["student_ID"]; ?>" data-date="<?php echo $curr_date; ?>" class="mark" name="B" <?php echo ((isset($B) && $B != 0) ? "value='".$B."'" : " ") ?>"></td>
 				</tr>
 				<?php } ?>	
 	</table>
@@ -199,24 +208,28 @@
 		$date = $_POST["mark_date"];
 		$mark_type = $_POST["mark_type"];
 		$curator_ID = $_SESSION["curator_ID"];
-
+		$P = 0; $U = 0; $B = 0;
 		$upd = mysqli_query($con, "SELECT * FROM attend WHERE date='$date' AND student_ID='$mark_st'");
-		//Значит добавляют не первый раз
-		if(mysqli_num_rows($upd) != 0){
-			$query = mysqli_query($con, "UPDATE attend SET $mark_type='$new_mark' WHERE student_ID='$mark_st' AND date='$date'");
+
+		//Добавление в первый раз
+		switch($mark_type){
+			case "P":
+				$P = $new_mark;
+				break;
+			case "U":
+				$U = $new_mark;
+				break;
+			case "B":
+				$B = $new_mark;
+				break;
+		}
+		if(mysqli_num_rows($upd) == 0){
+			$query = mysqli_query($con, "INSERT INTO attend (`date`, `student_ID`, `curator_ID`, `P`, `U`, `B`) VALUES ('$date', '$mark_st', '$curator_ID', '$P', '$U', '$B')");
 		}
 		else {
-			switch($mark_type){
-		    case "P":
-		        $query = mysqli_query($con, "INSERT INTO attend (`date`, `student_ID`, `curator_ID`, `P`, `U`, `B`) VALUES ('$date', '$mark_st', '$curator_ID', '$new_mark', '', '')");
-		        break;
-		    case "U":
-		        $query = mysqli_query($con, "INSERT INTO attend (`date`, `student_ID`, `curator_ID`, `P`, `U`, `B`) VALUES ('$date', '$mark_st', '$curator_ID', '', '$new_mark', '')");
-		        break;
-		    case "B":
-		        $query = mysqli_query($con, "INSERT INTO attend (`date`, `student_ID`, `curator_ID`, `P`, `U`, `B`) VALUES ('$date', '$mark_st', '$curator_ID', '', '', '$new_mark')");
-		        break;		                     		
-			}
+			//Значение только в одном поле, поэтому удаляем старое
+			$query = mysqli_query($con, "DELETE FROM attend WHERE date='$date' AND student_ID='$mark_st'");
+			$query = mysqli_query($con, "INSERT INTO attend (`date`, `student_ID`, `curator_ID`, `P`, `U`, `B`) VALUES ('$date', '$mark_st', '$curator_ID', '$P', '$U', '$B')");
 		}
 	}
 ?>

@@ -31,15 +31,13 @@
 						$s = 0;
 						while($row = mysqli_fetch_array($query)){
 							$s=$s+1;
-							echo "<tr><td>".$s."</td><td>".$row['s_surname']." ".$row['s_name']." ".$row['s_father']."<a class='del_stud' data-group='".$group."' data-student='".$row['student_ID']."'>Удалить</a></td></tr>";
+							echo "<tr><td>".$s."</td><td data-group='".$group."' data-student='".$row['student_ID']."'><span>".$row['s_name']."</span><a class='edit_stud'>Редакт</a><a class='del_stud'>Удалить</a></td></tr>";
 						}
 					?>
 				</table>
 
 				<form id="add_student" action="" method="POST">
-					<input type="text" name="new_s_surname" autocomplete="off" required>
 					<input type="text" data-group="<?php echo $group; ?>" name="new_s_name" autocomplete="off" required>
-					<input type="text" name="new_s_father" autocomplete="off" required>
 					<input type="submit" value="Добавить">
 				</form>
 			</div>
