@@ -1,5 +1,4 @@
 <?php
-	define("access", true);
 	$page = "Посещение";
 	include("../header.php");
 	//Если не установлена такая сессия, то возвращаем на вход
@@ -31,8 +30,8 @@
 		$weekdays = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
 		$rusweeks = array('Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'); ?>
 		<?php foreach($dates as $month => $weeks) { ?>
-		<h1><?php
-			switch (date('M', mktime(0,0,0,9,2,2017))) {
+		<h1 class="main_title"><?php
+			switch (date('M', mktime(0,0,0,date('m'),date('d'),date('Y')))) {
 			    case "Jan":
 			        echo "Январь";
 			        break;
@@ -72,9 +71,10 @@
 			}
 		?></h1>
 <!--КАЛЕНДАРЬ НА МЕСЯЦ-->
-<table>
+<div class="month">
+<table class="month_table">
     <tr>
-        <th><?php echo implode('</th><th>', $rusweeks); ?></th>
+        <th class="week_name"><?php echo implode('</th><th class="week_name">', $rusweeks); ?></th>
     </tr>
     <?php foreach($weeks as $week => $days){ ?>
     <tr>
@@ -87,7 +87,7 @@
             		$curr_date = date('d').date('m').date('y');
 								$query = mysqli_query($con, "SELECT * FROM weekends WHERE date='$date'");
 								      		
-            		echo "<span ".($days[$day] == date('d') ? "class='active date_on' data-date='$date'" : (($date > $curr_date || mysqli_num_rows($query) != 0) ? "class='date_off'" : "class='date_on' data-date='$date'")).">".$days[$day]."</span>";
+            		echo "<span class='weekend ".($days[$day] == date('d') ? "weekend__red date_on' data-date='$date'" : (($date > $curr_date || mysqli_num_rows($query) != 0) ? "date_off'" : "date_on' data-date='$date'")).">".$days[$day]."</span>";
             	}
             ?>
         </td>               
@@ -95,10 +95,12 @@
     </tr>
     <?php } ?>
 </table>
+</div>
 <?php } ?>
 
+<div class="group_table">
 <div class="attend_table">
-	<table>
+	<table class="table">
 		<tr>
 			<th>№</th>
 			<th>ФИО</th>
@@ -148,6 +150,7 @@
 				</tr>
 				<?php } ?>	
 	</table>
+</div>
 </div>
 </main>
 

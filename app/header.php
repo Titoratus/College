@@ -1,14 +1,13 @@
-<?php defined("access") or die("У вас не прав!"); ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="<?php if($page != "Вход"){echo "../";} ?>css/main.css">
+	<script src="/College/app/js/font-loader.js"></script>
+	<link rel="stylesheet" href="/College/app/css/main.css">
 	<title><?php echo $page; ?></title>
-	<script src="<?php if($page != "Вход"){echo "../";} ?>libs/jquery/dist/jquery.min.js"></script>
+	<script src="/College/app/libs/jquery/dist/jquery.min.js"></script>
 </head>
-<body>
+<body <?php if($page == "Вход") echo "class='login'"; ?>>
 <?php
 	session_start();
 
@@ -19,14 +18,15 @@
 
 	if(isset($_SESSION["nickname"])){
 ?>
-
+<div class="wrapper">
 <!--МЕНЮ-->
 <header class="header">
 	<nav class="header_menu">
-		<ul>
-			<li class="menu_elem"><a class="menu_link <?php if($page == 'Группы'){echo 'active';} ?>" href="groups.php">Группы</a></li>
-			<li class="menu_elem"><a class="menu_link <?php if($page == 'Выходные'){echo 'active';} ?>" href="weekends.php">Выходные</a></li>
-			<li class="menu_elem"><a class="menu_link <?php if($page == 'Посещение'){echo 'active';} ?>" href="attend.php">Посещение</a></li>
+		<ul class="menu">
+			<li class="menu_elem"><a class="menu_link <?php if($page == 'Моя группа'){echo 'link__active';} ?>" href="group.php">Моя группа</a></li>
+			<li class="menu_elem"><a class="menu_link <?php if($page == 'Выходные'){echo 'link__active';} ?>" href="weekends.php">Выходные</a></li>
+			<li class="menu_elem"><a class="menu_link <?php if($page == 'Посещение'){echo 'link__active';} ?>" href="attend.php">Посещение</a></li>
+			<li class="menu_elem"><a class="menu_link <?php if($page == 'Отчёты'){echo 'link__active';} ?>" href="reports.php">Отчёты</a></li>
 		</ul>
 	</nav>
 	<div class="header_infobar">
@@ -35,7 +35,7 @@
 			$query = mysqli_query($con, "SELECT * FROM curators WHERE nickname = '$nickname'");
 			$query = mysqli_fetch_array($query);
 
-			echo $query["c_surname"];
+			echo $query["c_surname"]." ".substr($query["c_name"], 0, 2).". ".substr($query["c_father"], 0, 2).".";
 		?>
 		<a id="logout" href="../logout.php">Выйти</a>
 	</div>

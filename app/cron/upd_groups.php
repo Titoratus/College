@@ -15,6 +15,11 @@
 	$query = mysqli_query($con, "SELECT * FROM groups WHERE course = '4'");
 	while($row = mysqli_fetch_array($query)){
 		$group = $row["group_ID"];
+
+		$query3 = mysqli_query($con, "SELECT * FROM curator_group WHERE group_ID='$group'");
+		$query3 = mysqli_fetch_array($query3);
+		$curator = $query3["curator_ID"];
+		$query3 = mysqli_query($con, "DELETE FROM attend WHERE curator_ID='$curator'");
 		deleteGroup($group);
 	}
 
@@ -41,4 +46,5 @@
 			deleteGroup($old_group);
 		}
 	}
+	mysqli_close($con);
 ?>

@@ -4,6 +4,26 @@
 	$query = mysqli_query($con, "SET NAMES UTF8");
 	$query = mysqli_query($con, "SET CHARACTER SET UTF8");
 
+
+	//-------ВХОД------------
+	if(isset($_POST["login"])){
+		$login = $_POST["login"];
+		$password = md5($_POST["password"]);
+
+		//Делаем выборку по нику
+		$query = mysqli_query($con, "SELECT * FROM curators WHERE nickname = '$login' AND password = '$password'");
+		//Если такой есть
+		if(mysqli_num_rows($query)){
+			$_SESSION["nickname"] = $_POST["login"];
+			$nickname = $_POST["login"];
+			$query = mysqli_query($con, "SELECT * FROM curators WHERE nickname='$nickname'");
+			$query = mysqli_fetch_array($query);
+			$_SESSION["curator_ID"] = $query["curator_ID"];
+			echo "no_errors";
+		}
+		else echo "Неверный логин или пароль!";
+	}	
+
 	//-----------ГРУППЫ-----------
 	if(isset($_POST["new_group"])){
 		$group_ID = $_POST["new_group"];
@@ -29,27 +49,27 @@
 		$group = mysqli_fetch_array($query);
 		$group = $group["group_ID"];
 	?>
-	<div data-group="<?php echo $group_ID; ?>" class="group_name"><?php echo $group_ID; ?><span class="edit_group">edit</span></div>
-	<div class="groups_table">
-		<table>
+	<div data-group="<?php echo $group_ID; ?>" class="group_name"><?php echo $group_ID; ?><span class="edit_group"></span></div>
+	<div class="group_table">
+		<table class="table">
 			<tr>
-				<th>№</th>
-				<th>ФИО</th>
+				<th class="table_num">№</th>
+				<th class="table_name">ФИО</th>
 			</tr>
 			<?php
-				$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$group'");
+				$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$group' ORDER BY s_name ASC");
 
 				$s = 0;
 				while($row = mysqli_fetch_array($query)){
 					$s=$s+1;
-					echo "<tr><td>".$s."</td><td data-group='".$group."' data-student='".$row['student_ID']."'>".$row['s_name']."<a class='edit_stud'>Редакт</a><a class='del_stud'>Удалить</a></td></tr>";
+					echo "<tr><td>".$s."</td><td data-group='".$group."' data-student='".$row['student_ID']."'><span>".$row['s_name']."</span><a class='edit_stud'></a><a class='del_stud'></a></td></tr>";
 				}
 			?>
 		</table>
 
 		<form id="add_student" action="" method="POST">
 			<input type="text" data-group="<?php echo $group; ?>" name="new_s_name" autocomplete="off" required>
-			<input type="submit" value="Добавить">
+			<input type="submit" value="+">
 		</form>		
 	</div>
 <?php
@@ -73,7 +93,7 @@
 			<input type="text" name="group_course" placeholder="Курс" autocomplete="off" required>
 			<input type="submit" value="Создать">
 		</form>
-		<div class="groups_table"></div>
+		<div class="group_table"></div>
 		<?php
 		}
 	}
@@ -103,25 +123,25 @@
 			$query = mysqli_query($con, "UPDATE students SET s_name='$new_name' WHERE student_ID='$s_ID'");
 		}
 ?>
-	<table>
+	<table class="table">
 		<tr>
-			<th>№</th>
-			<th>ФИО</th>
+			<th class="table_num">№</th>
+			<th class="table_name">ФИО</th>
 		</tr>
 		<?php
-			$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$group'");
+			$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$group' ORDER BY s_name ASC");
 
 			$s = 0;
 			while($row = mysqli_fetch_array($query)){
 				$s=$s+1;
-				echo "<tr><td>".$s."</td><td data-group='".$group."' data-student='".$row['student_ID']."'><span>".$row['s_name']."</span><a class='edit_stud'>Редакт</a><a class='del_stud'>Удалить</a></td></tr>";
+				echo "<tr><td>".$s."</td><td data-group='".$group."' data-student='".$row['student_ID']."'><span>".$row['s_name']."</span><a class='edit_stud'></a><a class='del_stud'></a></td></tr>";
 			}
 		?>
 	</table>
 
 	<form id="add_student" action="" method="POST">
-		<input type="text" data-group="<?php echo $group; ?>" name="new_s_name" autocomplete="off" required>
-		<input type="submit" value="Добавить">
+		<input type="text" data-group="<?php echo $group; ?>" name="new_s_name" autocomplete="off" placeholder="ФИО нового студента" required>
+		<input type="submit" value="+">
 	</form>
 <?php	} ?>
 
@@ -135,6 +155,7 @@
 		$date = $_POST["add_day"];
 		//Добавляем в таблицу
 		$query = mysqli_query($con, "INSERT INTO weekends (`date`) VALUES ('$date')");		
+		$query = mysqli_query($con, "DELETE FROM attend WHERE date='$date'");
 	} 
 	else if (isset($_POST["del_day"])){
 		$date = $_POST["del_day"];
@@ -148,7 +169,7 @@
 	//------------ПОСЕЩЕНИЕ-------------
 	if(isset($_POST["chose_date"])){
 ?>
-	<table>
+	<table class="table">
 		<tr>
 			<th>№</th>
 			<th>ФИО</th>

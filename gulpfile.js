@@ -21,6 +21,10 @@ gulp.task('sass', function(){
 });
 
 gulp.task('browser-sync', function(){
+browserSync.init({
+    proxy: "localhost/college/app/",
+    port: 8000  
+ });		
 	browserSync({
 		server: {
 			baseDir: 'app'
@@ -48,6 +52,7 @@ gulp.task('css-libs', ['sass'], function(){
 gulp.task('watch', ['css-libs', 'fontsConvert', 'browser-sync', 'scripts'], function(){
 	gulp.watch('app/sass/**/*.sass', ['sass']);
 	gulp.watch('app/*.html', browserSync.reload);
+	gulp.watch('app/*.php', browserSync.reload);
 	gulp.watch('app/js/**/*.js', browserSync.reload);
 	gulp.watch('app/fonts/**/*', ['fontsConvert']);
 });

@@ -23,5 +23,6 @@
 			$date .= substr($year, 2);
 			$query = mysqli_query($con, "INSERT INTO weekends (`date`) VALUES ('$date')");	
 		}
-	}	
+	}
+	mysqli_close($con);
 ?>

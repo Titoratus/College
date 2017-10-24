@@ -10,7 +10,7 @@
 ?>
 
 <main class="main">
-	<h1>Выходные</h1>
+	<h1 class="main_title">Выходные</h1>
 	<?php
 		//-----------ВЫВОД КАЛЕНДАРЯ-----------
 		function getDates($year)
@@ -47,13 +47,13 @@
 
 		//Номер месяца
 		$k = 0;
-		foreach($dates as $month => $weeks) { 
-			echo "<h2>".$rusmonths[$k]."</h2>";
-			$k=$k+1;
+		foreach($dates as $month => $weeks) {
 		?>
-	<table>
+<div class="month">
+	<?php echo "<h2 class='month_name'>".$rusmonths[$k]."</h2>"; $k=$k+1; ?>
+	<table class="month_table">
 	    <tr>
-	        <th><?php echo implode('</th><th>', $rusweeks); ?></th>
+	        <th class="week_name"><?php echo implode('</th><th class="week_name">', $rusweeks); ?></th>
 	    </tr>
 	    <?php foreach($weeks as $week => $days){ ?>
 	    <tr>
@@ -62,7 +62,7 @@
 	            <?php
 	            	if(isset($days[$day])){
 	            		$cur_date = date('d', mktime(0,0,0,1,$days[$day],$year_now)).date('m', mktime(0,0,0,$k,$days[$day],$year_now)).substr($year_now, 2);
-	            		echo "<span class='weekend ".(isset($freedays[$cur_date]) ? "active" : "")."' for='".$cur_date."'>".$days[$day]."</span>";
+	            		echo "<span class='weekend ".(isset($freedays[$cur_date]) ? "weekend__red" : "")."' for='".$cur_date."'>".$days[$day]."</span>";
 	            	}
 	            	else echo '&nbsp';
 	            ?>
@@ -71,6 +71,7 @@
 	    </tr>
 	    <?php } ?>
 	</table>
+</div>
 	<?php } ?>
 </main>
 <?php include("../footer.php"); ?>

@@ -202,4 +202,5 @@
 	//Сохранение
 	$objWriter = new PHPExcel_Writer_Excel5($xls);
 	$objWriter->save('../reports/lolus.xls');
+	mysqli_close($con);
 ?>

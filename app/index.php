@@ -8,41 +8,15 @@
 
 	//Если есть такая сессия, значит выполнен вход и отправляем на главную
 	if(isset($_SESSION["nickname"])){
-		header("Location: pages/groups.php");
+		header("Location: pages/group.php");
 	}
 ?>
 
-<form action="" method="POST">
-	<input type="text" name="login" autocomplete="off" required>
-	<input type="password" name="password" required>
-	<input type="submit" name="submit" value="Войти">
+<form class="form_login" action="" method="POST">
+	<input class="field field_login" type="text" name="login" placeholder="Логин" autocomplete="off" required>
+	<input class="field field_login" type="password" name="password" placeholder="Пароль" required>
+	<div class="login_error"></div>
+	<input class="login_btn" type="submit" value="Войти">
 </form>
 
-<?php
-	//Если нажали submit
-	if(isset($_POST["submit"])){
-		$login = $_POST["login"];
-		$password = md5($_POST["password"]);
-
-		//Делаем выборку по нику
-		$query = mysqli_query($con, "SELECT * FROM curators WHERE nickname = '$login'");
-		$query = mysqli_fetch_array($query);
-
-		//Если такой есть
-		if(!empty($query["nickname"])){
-			//И совпадает пароль, то идём на главную
-			if($query["password"] == $password){		
-				$_SESSION["nickname"] = $_POST["login"];
-				$nickname = $_POST["login"];
-				$query = mysqli_query($con, "SELECT * FROM curators WHERE nickname='$nickname'");
-				$query = mysqli_fetch_array($query);
-				$_SESSION["curator_ID"] = $query["curator_ID"];
-				header("Location: pages/groups.php");	
-			}
-			else echo "Неверный пароль!";
-		}
-		else echo "Пользователь с таким логином не найден!";
-	}
-
-	include("footer.php");
-?>
+<?php include("footer.php"); ?>
