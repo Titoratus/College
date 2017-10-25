@@ -6,26 +6,12 @@ $(document).on('submit', '.form_login',function(e) {
 	       url: "functions.php",
 	       success: function(data) {
 	       		//trim удаляет лишние пробелы, которые есть в response
-	       		if($.trim(data) === "no_errors") { window.location.href = '/college/app/pages/group.php' }
+	       		if($.trim(data) === "no_errors") { window.location.href = '/college/app/pages/group' }
 	       		else $(".login_error").html($.trim(data));
 	       }
 	});	
 	e.preventDefault();
 });
-
-function getChar(event) {
-  if (event.which == null) { // IE
-    if (event.keyCode < 32) return null; // спец. символ
-    return String.fromCharCode(event.keyCode)
-  }
-
-  if (event.which != 0 && event.charCode != 0) { // все кроме IE
-    if (event.which < 32) return null; // спец. символ
-    return String.fromCharCode(event.which); // остальные
-  }
-
-  return null; // спец. символ
-}
 
 $(function(){
     $('#logout').click(function(){
@@ -59,35 +45,13 @@ $(document).on('click', '.weekend',function(e) {
 	});	
 });
 
-//Удаление группы
-$(document).on('click', '.del_group', function(e){
-	if(confirm("Вы уверены, что хотите удалить группу "+$(this).attr("data-group")+"?")){
-		var data = "del_group=" + $(this).attr("data-group");
-		var group = $(this).parent();
-		$.ajax({
-		       data: data,
-		       type: "post",
-		       url: "../functions.php",
-					 success: function(data) {
-					   group.remove();
-					   $(".group_table").empty();
-					   $(".group").html(data);
-					 }
-		});
-	}
-	else return false;
-
-	//Чтобы не срабатывал клик на родителя
-	e.stopPropagation();
-});
-
-//Создание группы
-$(document).on('keypress', '.new_group', function(e){
+//Изменение группы
+$(document).on('keypress', '.edit_group', function(e){
 		if(e.keyCode == 13){
-			//Группа
+			//Новая группа
 			var group = $(this).val();
 
-			//Кура берётся из 2-й цифры названия
+			//Курc берётся из 2-й цифры названия
 			var course = "&course="+group.charAt(1);
 
 			//Если курс больше 4
@@ -97,15 +61,58 @@ $(document).on('keypress', '.new_group', function(e){
 				return false;
 			}
 
-			//Если изменили название группы
+			//Старое название группы
 			var old_group = $(this).parent().attr("data-group");
 
-			//Не сработает, если название не из 3-ч цифр
+			//Не сработает, если название не из 3-х цифр
 			if(group.length == 3){
 				if(old_group != undefined){
-					data = "new_group="+group+course+"&old_group="+old_group;
+					data = "edit_group="+group+course+"&old_group="+old_group;
 				}
 				else data = "new_group="+group+course;				
+			  $.ajax({
+			    type: "post",
+			    url: "../functions.php",
+			    data: data,
+			    success: function(data) {
+			    			if(data == "group_exists"){
+			    				$(".error").html("Такая группа уже есть!");
+			    				$(".error").fadeIn(300);
+			    			}
+						  	else if(data == "not_numeric"){
+						  		$(".error").html("Название только из цифр!");
+						  		$(".error").fadeIn(300);
+						  	}
+						  	else $(".group").html(data);
+						 }
+			  });
+			}
+			else {
+	  		$(".error").html("Минимум 3 цифры!");
+	  		$(".error").fadeIn(300);				
+			}
+		}
+});
+
+//Первое создание группы
+$(document).on('keypress', '.new_group', function(e){
+		if(e.keyCode == 13){
+			//Новая группа
+			var group = $(this).val();
+
+			//Курc берётся из 2-й цифры названия
+			var course = "&course="+group.charAt(1);
+
+			//Если курс больше 4
+			if(group.charAt(1) > 4 || group.charAt(1) < 1){
+				$(".error").html("Курс должен быть от 1 до 4!");
+				$(".error").fadeIn(300);
+				return false;
+			}
+
+			//Не сработает, если название не из 3-х цифр
+			if(group.length == 3){
+				data = "new_group="+group+course;				
 			  $.ajax({
 			    type: "post",
 			    url: "../functions.php",
@@ -118,16 +125,16 @@ $(document).on('keypress', '.new_group', function(e){
 		}
 });
 
-$(document).on('click', '.edit_group', function(){
+$(document).on('click', '.btn_edit_group', function(){
 	var group = $(".group_name").attr("data-group");
-	$(".group_name").html("<input class='new_group' maxlength='3' value='"+group+"' type='text'><div style='display: none;' class='error'></div>");
+	$(".group_name").html("<input class='edit_group' maxlength='3' value='"+group+"' type='text'><div style='display: none;' class='error'></div>");
 });
 
 //Добавление студента
 $(document).on('submit', '#add_student', function(e) {
 	  var form = $(this);
 	  var group = $(this).find("input[name='new_s_name']").attr("data-group");
-	  group = "&selected_group="+group;
+	  group = "&group="+group;
 	  $.ajax({
 	    type: "post",
 	    url: "../functions.php",
@@ -200,15 +207,17 @@ $(document).on("click", ".date_on", function(){
 
 $(document).on("blur", ".mark", function(){
 	var old = $(this).val();
-	$(this).parent().parent().find(".mark").val("");
-	$(this).val(old);
-	var mark = "new_mark="+$(this).val();
-	var student = "&mark_st="+$(this).attr("data-student");
-	var date = "&mark_date="+$(this).attr("data-date");
-	var mark_type = "&mark_type="+$(this).attr("name");
-	$.ajax({
-		type: "post",
-		url: "../functions.php",
-    data: mark+student+date+mark_type
-	});
+	if(old != ""){
+		$(this).parent().parent().find(".mark").val("");
+		$(this).val(old);
+		var mark = "new_mark="+$(this).val();
+		var student = "&mark_st="+$(this).attr("data-student");
+		var date = "&mark_date="+$(this).attr("data-date");
+		var mark_type = "&mark_type="+$(this).attr("name");
+		$.ajax({
+			type: "post",
+			url: "../functions.php",
+	    data: mark+student+date+mark_type
+		});		
+	}
 });

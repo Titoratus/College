@@ -5,7 +5,7 @@
 
 	//Если не установлена такая сессия, то возвращаем на вход
 	if(!isset($_SESSION["nickname"])){
-		header("Location: ../index.php");
+		header("Location: ../index");
 	}	
 ?>
 

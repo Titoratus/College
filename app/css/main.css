@@ -95,6 +95,8 @@ input {
   position: relative; }
   .header .header_menu {
     padding-top: 120px; }
+  .header .header_infobar {
+    font-size: 0.9em; }
   .header .menu {
     list-style: none; }
     .header .menu .menu_elem {
@@ -155,9 +157,10 @@ input {
     text-shadow: 0 2px 2px rgba(0, 0, 0, 0.18);
     font-family: "Roboto-Medium", sans-serif;
     position: relative; }
-    .main .group_name:hover .edit_group {
+    .main .group_name:hover .btn_edit_group {
       display: block; }
     .main .group_name .error {
+      display: none;
       width: 250px;
       text-shadow: none;
       font-size: 0.7em;
@@ -181,7 +184,7 @@ input {
         bottom: -20px;
         right: 50%;
         margin-right: -5px; }
-    .main .group_name .edit_group {
+    .main .group_name .btn_edit_group {
       display: none;
       width: 15px;
       height: 15px;
@@ -193,7 +196,7 @@ input {
       right: 20px;
       opacity: .7;
       cursor: pointer; }
-    .main .group_name .new_group {
+    .main .group_name .new_group, .main .group_name .edit_group {
       border: none;
       display: block;
       background: none;
@@ -204,7 +207,7 @@ input {
       text-align: center;
       width: 100%;
       font-family: "Roboto-Medium", sans-serif; }
-      .main .group_name .new_group::-webkit-input-placeholder {
+      .main .group_name .new_group::-webkit-input-placeholder, .main .group_name .edit_group::-webkit-input-placeholder {
         color: rgba(255, 255, 255, 0.65);
         font-size: 0.9em; }
   .main .group_table {
@@ -222,7 +225,7 @@ input {
       font-family: "Roboto-Light", sans-serif;
       font-weight: normal;
       position: relative;
-      padding: 7px 15px; }
+      padding: 10px 15px; }
     .main .table tr:hover td {
       background: rgba(55, 105, 211, 0.05); }
     .main .table td {
@@ -249,7 +252,8 @@ input {
         font-size: 1em;
         font-family: "Raleway-SemiBold", sans-serif;
         color: #4e4e4e;
-        width: 100%; }
+        width: 100%;
+        background: transparent; }
       .main .table td:first-child {
         font-family: "Roboto-Medium", sans-serif; }
       .main .table td:nth-child(2) {
@@ -332,22 +336,58 @@ input {
       cursor: pointer; }
   .main .month:nth-of-type(3n) {
     margin-right: 0; }
+  .main .month__nomargin {
+    margin-right: 0; }
 
-.menu_link {
-  font-size: 14px; }
+.report:first-of-type {
+  margin: 0; }
 
-.active {
-  background: crimson;
-  color: #fff; }
-
-.header_infobar {
-  font-size: 14px; }
-
-.m1::before {
-  background: crimson; }
-
-.m2::before {
-  background: blue; }
-
-.m3::before {
-  background: green; }
+.report {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  height: 60px;
+  line-height: 60px;
+  padding: 0 25px;
+  position: relative;
+  margin-top: 20px;
+  width: 370px;
+  text-align: left; }
+  .report .report_month {
+    font: 1.125em "Raleway-Regular", sans-serif;
+    color: #8d8b8b;
+    display: inline-block;
+    padding-right: 60px; }
+  .report .report_download {
+    display: inline-block;
+    background: -webkit-linear-gradient(14deg, #5eb66d, #b3df73);
+    background: -o-linear-gradient(14deg, #5eb66d, #b3df73);
+    background: linear-gradient(76deg, #5eb66d, #b3df73);
+    color: #fff;
+    padding: 7px 25px;
+    -webkit-border-radius: 30px;
+            border-radius: 30px;
+    font: 0.875em "Raleway-Regular", sans-serif;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    float: right;
+    margin-top: 15px; }
+    .report .report_download:hover {
+      opacity: .85; }
+    .report .report_download:active {
+      -webkit-box-shadow: inset 0 0 10px -3px rgba(0, 0, 0, 0.9);
+              box-shadow: inset 0 0 10px -3px rgba(0, 0, 0, 0.9); }
+  .report .report_create {
+    display: inline-block;
+    border: 1.3px dashed #585858;
+    color: #656565;
+    line-height: 1;
+    padding: 7px 20px;
+    -webkit-border-radius: 30px;
+            border-radius: 30px;
+    font-size: 0.875em;
+    cursor: pointer; }
+    .report .report_create:hover {
+      background: #585858;
+      color: #fff; }
+  .report .report_create__right {
+    float: right;
+    margin-top: 15px; }

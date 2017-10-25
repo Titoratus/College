@@ -7,8 +7,8 @@
 	$query = mysqli_query($con, "SET CHARACTER SET UTF8");
 
 	// Подключаем класс для работы с excel
-	require_once('../phpExcel/Classes/PHPExcel.php');
-	require_once('../phpExcel/Classes/PHPExcel/Writer/Excel5.php');
+	require_once('phpExcel/Classes/PHPExcel.php');
+	require_once('phpExcel/Classes/PHPExcel/Writer/Excel5.php');
 	// Создаем объект класса PHPExcel
 	$xls = new PHPExcel();
 	// Устанавливаем индекс активного листа
@@ -201,6 +201,15 @@
 
 	//Сохранение
 	$objWriter = new PHPExcel_Writer_Excel5($xls);
-	$objWriter->save('../reports/lolus.xls');
+	$month = array("Январь","Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь");
+	for($i=0; $i <= 11; $i++){
+		if(date('m', mktime(0,0,0,$i+1,1,date('Y'))) == date('m')) {
+			$today = $month[$i];
+			break;
+		}
+	}
+
+	$objWriter->save('reports/'.$today.' '.$_SESSION['curator_group'].'.xls');
 	mysqli_close($con);
+	header("Location: pages/reports.php");
 ?>

@@ -90,6 +90,8 @@ input
 	position: relative
 	.header_menu
 		padding-top: 120px
+	.header_infobar
+		font-size: 0.9em
 	.menu
 		list-style: none
 		.menu_elem
@@ -145,10 +147,11 @@ input
 		text-shadow: 0 2px 2px rgba(0,0,0,.18)
 		font-family: $third_font
 		position: relative
-		&:hover .edit_group
+		&:hover .btn_edit_group
 			display: block
 
 		.error
+			display: none
 			width: 250px
 			text-shadow: none
 			font-size: 0.7em
@@ -172,7 +175,7 @@ input
 				right: 50%
 				margin-right: -5px
 
-		.edit_group
+		.btn_edit_group
 			display: none
 			width: 15px
 			height: 15px
@@ -184,7 +187,7 @@ input
 			opacity: .7
 			cursor: pointer
 
-		.new_group
+		.new_group, .edit_group
 			border: none
 			display: block
 			background: none
@@ -214,7 +217,7 @@ input
 			font-family: $fourth_font
 			font-weight: normal
 			position: relative
-			padding: 7px 15px
+			padding: 10px 15px
 
 		tr:hover td
 			background: rgba(55, 105, 211, 0.05)
@@ -246,6 +249,7 @@ input
 				font-family: $main_font
 				color: #4e4e4e
 				width: 100%
+				background: transparent
 
 			&:first-child
 				font-family: $third_font
@@ -306,7 +310,6 @@ input
 				border: 1px solid #e2e2e2
 
  //Выходные
-
 	.month
 		display: inline-block
 		font-family: Lato
@@ -346,19 +349,59 @@ input
 	.month:nth-of-type(3n)
 		margin-right: 0
 
-.menu_link
-	font-size: 14px
+	.month__nomargin
+		margin-right: 0	
 
-.active
-	background: crimson
-	color: #fff
 
-.header_infobar
-	font-size: 14px
+//Отчёты
+.report:first-of-type
+	margin: 0
 
-.m1::before
-	background: crimson
-.m2::before
-	background: blue
-.m3::before
-	background: green
+.report
+	border: 1px solid rgba(0,0,0,.15);
+	height: 60px
+	line-height: 60px
+	padding: 0 25px
+	position: relative
+	margin-top: 20px
+	width: 370px
+	text-align: left
+
+	.report_month
+		font: 18/16*1em $second_font
+		color: #8d8b8b
+		display: inline-block
+		padding-right: 60px
+
+	.report_download
+		display: inline-block
+		background: linear-gradient(76deg, #5eb66d, #b3df73);
+		color: #fff
+		padding: 7px 25px
+		border-radius: 30px
+		font: 14/16*1em $second_font
+		text-shadow: 0 2px 2px rgba(0,0,0,.2)
+		cursor: pointer
+		float: right
+		margin-top: 15px
+		&:hover
+			opacity: .85
+		&:active
+			box-shadow: inset 0 0 10px -3px rgba(0,0,0,.9)
+
+	.report_create
+		display: inline-block
+		border: 1.3px dashed #585858
+		color: #656565
+		line-height: 1
+		padding: 7px 20px
+		border-radius: 30px
+		font-size: 14/16*1em
+		cursor: pointer
+		&:hover
+			background: #585858
+			color: #fff
+
+	.report_create__right
+		float: right
+		margin-top: 15px

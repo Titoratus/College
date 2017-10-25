@@ -3,11 +3,16 @@
 	include("../header.php");
 	//Если не установлена такая сессия, то возвращаем на вход
 	if(!isset($_SESSION["nickname"])){
-		header("Location: ../index.php");
+		header("Location: ../index");
 	}	
 ?>
 <main class="main">
 	<?php
+		//Если нет студентов, то ничего не выводим
+		$group = $_SESSION["curator_group"];
+		$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$group'");
+		if(mysqli_num_rows($query) == 0) die("Нет студентов.");
+
 		//Если сегодня выходной, то ничего не выводить
 		$curr_date = date('d').date('m').date('y');
 		$query = mysqli_query($con, "SELECT * FROM weekends WHERE date='$curr_date'");
@@ -71,7 +76,7 @@
 			}
 		?></h1>
 <!--КАЛЕНДАРЬ НА МЕСЯЦ-->
-<div class="month">
+<div class="month month__nomargin">
 <table class="month_table">
     <tr>
         <th class="week_name"><?php echo implode('</th><th class="week_name">', $rusweeks); ?></th>
@@ -114,7 +119,7 @@
 				$curator = mysqli_fetch_array($query);
 				$c_group = $curator["group_ID"];
 				//Находим группу куратора
-				$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$c_group'");
+				$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$c_group' GROUP BY s_name ASC");
 
 				$curr_date = date('d').date('m').date('y');
 

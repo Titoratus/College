@@ -23,10 +23,10 @@
 <header class="header">
 	<nav class="header_menu">
 		<ul class="menu">
-			<li class="menu_elem"><a class="menu_link <?php if($page == 'Моя группа'){echo 'link__active';} ?>" href="group.php">Моя группа</a></li>
-			<li class="menu_elem"><a class="menu_link <?php if($page == 'Выходные'){echo 'link__active';} ?>" href="weekends.php">Выходные</a></li>
-			<li class="menu_elem"><a class="menu_link <?php if($page == 'Посещение'){echo 'link__active';} ?>" href="attend.php">Посещение</a></li>
-			<li class="menu_elem"><a class="menu_link <?php if($page == 'Отчёты'){echo 'link__active';} ?>" href="reports.php">Отчёты</a></li>
+			<li class="menu_elem"><a class="menu_link <?php if($page == 'Моя группа'){echo 'link__active';} ?>" href="group">Моя группа</a></li>
+			<li class="menu_elem"><a class="menu_link <?php if($page == 'Выходные'){echo 'link__active';} ?>" href="weekends">Выходные</a></li>
+			<li class="menu_elem"><a class="menu_link <?php if($page == 'Посещение'){echo 'link__active';} ?>" href="attend">Посещение</a></li>
+			<li class="menu_elem"><a class="menu_link <?php if($page == 'Отчёты'){echo 'link__active';} ?>" href="reports">Отчёты</a></li>
 		</ul>
 	</nav>
 	<div class="header_infobar">
@@ -37,7 +37,7 @@
 
 			echo $query["c_surname"]." ".substr($query["c_name"], 0, 2).". ".substr($query["c_father"], 0, 2).".";
 		?>
-		<a id="logout" href="../logout.php">Выйти</a>
+		<a id="logout" href="../logout">Выйти</a>
 	</div>
 </header>
 
