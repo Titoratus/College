@@ -12,11 +12,11 @@
 	}
 ?>
 
-<form class="form_login" action="" method="POST">
-	<input class="field field_login" type="text" name="login" placeholder="Логин" autocomplete="off" required>
-	<input class="field field_login" type="password" name="password" placeholder="Пароль" required>
-	<div class="login_error"></div>
-	<input class="login_btn" type="submit" value="Войти">
+<form class="form-login" action="" method="POST">
+	<input class="field" type="text" name="login" placeholder="Логин" autocomplete="off" required>
+	<input class="field" type="password" name="password" placeholder="Пароль" required>
+	<div class="login__error"></div>
+	<input class="login__btn" type="submit" value="Войти">
 </form>
 
 <?php include("footer.php"); ?>

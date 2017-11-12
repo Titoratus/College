@@ -1,8 +1,6 @@
 <?php
 	session_start();
-	$con = mysqli_connect("localhost", "root", "", "college");
-	$query = mysqli_query($con, "SET NAMES UTF8");
-	$query = mysqli_query($con, "SET CHARACTER SET UTF8");
+	include("db.php");
 
 
 	//-------ВХОД------------
@@ -13,7 +11,7 @@
 		//Делаем выборку по нику
 		$query = mysqli_query($con, "SELECT * FROM curators WHERE nickname = '$login' AND password = '$password'");
 		//Если такой есть
-		if(mysqli_num_rows($query)){
+		if(mysqli_num_rows($query) != 0){
 			$_SESSION["nickname"] = $_POST["login"];
 			$nickname = $_POST["login"];
 			$query = mysqli_query($con, "SELECT * FROM curators WHERE nickname='$nickname'");
@@ -53,7 +51,8 @@
 
 			//Заносим в groups
 			$query = mysqli_query($con, "INSERT INTO groups (`group_ID`, `course`) VALUES ('$group_ID', '$group_course')");
-			if(!$query) die("group_exists");	
+			if(!$query) die("group_exists");
+			$_SESSION["curator_group"] = $group;			
 
 			//Заносим в curator_group
 			$curator_ID = $_SESSION["curator_ID"];

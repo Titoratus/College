@@ -4,3 +4,4 @@ loadFont('Raleway-Regular', '../css/Raleway-Regular.css');
 loadFont('Raleway-SemiBold', '../css/Raleway-SemiBold.css');
 loadFont('Roboto-Medium', '../css/Roboto-Medium.css');
 loadFont('Roboto-Thin', '../css/Roboto-Light.css');
+loadFont('Lato', '../css/Lato.css');

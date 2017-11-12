@@ -1,7 +1,5 @@
 <?php
-	$con = mysqli_connect("localhost", "root", "", "college");
-	$query = mysqli_query($con, "SET NAMES UTF8");
-	$query = mysqli_query($con, "SET CHARACTER SET UTF8");
+	include("../db.php");
 
 	//Очистка таблицы Выходных
 	$query = mysqli_query($con, "TRUNCATE TABLE weekends");

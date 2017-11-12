@@ -2,9 +2,7 @@
 	session_start();
 
 	//Подключение к БД и установка кодировки для кириллицы
-	$con = mysqli_connect("localhost", "root", "", "college");
-	$query = mysqli_query($con, "SET NAMES UTF8");
-	$query = mysqli_query($con, "SET CHARACTER SET UTF8");
+	include("db.php");
 
 	// Подключаем класс для работы с excel
 	require_once('phpExcel/Classes/PHPExcel.php');

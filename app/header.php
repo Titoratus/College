@@ -2,19 +2,17 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<script src="/College/app/js/font-loader.js"></script>
-	<link rel="stylesheet" href="/College/app/css/main.css">
+	<script src="/js/font-loader.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/css/main.min.css">
 	<title><?php echo $page; ?></title>
-	<script src="/College/app/libs/jquery/dist/jquery.min.js"></script>
 </head>
 <body <?php if($page == "Вход") echo "class='login'"; ?>>
 <?php
 	session_start();
 
 	//Подключение к БД и установка кодировки для кириллицы
-	$con = mysqli_connect("localhost", "root", "", "college");
-	$query = mysqli_query($con, "SET NAMES UTF8");
-	$query = mysqli_query($con, "SET CHARACTER SET UTF8");
+	include("db.php");
 
 	if(isset($_SESSION["nickname"])){
 ?>

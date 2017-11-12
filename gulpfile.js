@@ -86,6 +86,12 @@ gulp.task('build', ['clean', 'fontsConvert', 'img', 'css-libs', 'scripts'], func
 
 	var buildHTML = gulp.src('app/*.*')
 	.pipe(gulp.dest('dist'));
+
+	var buildCron = gulp.src('app/cron/*.*')
+	.pipe(gulp.dest('dist/cron'));
+
+	var buildPages = gulp.src('app/pages/*.*')
+	.pipe(gulp.dest('dist/pages'));		
 });
 
 gulp.task('default', ['watch']);

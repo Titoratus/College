@@ -1,8 +1,6 @@
 <?php
 	session_start();
-	$con = mysqli_connect("localhost", "root", "", "college");
-	$query = mysqli_query($con, "SET NAMES UTF8");
-	$query = mysqli_query($con, "SET CHARACTER SET UTF8");
+	include("../db.php");
 	
 	//Удаление 4-го курса
 	$query = mysqli_query($con, "SELECT * FROM groups WHERE course = '4'");

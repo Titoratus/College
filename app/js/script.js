@@ -1,4 +1,4 @@
-$(document).on('submit', '.form_login',function(e) {
+$(document).on('submit', '.form-login',function(e) {
 	var form = $(this);
 	$.ajax({
 	       data: form.serialize(),
@@ -6,8 +6,8 @@ $(document).on('submit', '.form_login',function(e) {
 	       url: "functions.php",
 	       success: function(data) {
 	       		//trim удаляет лишние пробелы, которые есть в response
-	       		if($.trim(data) === "no_errors") { window.location.href = '/college/app/pages/group' }
-	       		else $(".login_error").html($.trim(data));
+	       		if($.trim(data) === "no_errors") { window.location.href = '/pages/group' }
+	       		else $(".login__error").html($.trim(data));
 	       }
 	});	
 	e.preventDefault();
