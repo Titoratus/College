@@ -1,8 +1,6 @@
 <?php
 	session_start();
 	include("db.php");
-
-
 	//-------ВХОД------------
 	if(isset($_POST["login"])){
 		$login = $_POST["login"];

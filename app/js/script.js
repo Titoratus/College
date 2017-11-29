@@ -6,7 +6,7 @@ $(document).on('submit', '.form-login',function(e) {
 	       url: "functions.php",
 	       success: function(data) {
 	       		//trim удаляет лишние пробелы, которые есть в response
-	       		if($.trim(data) === "no_errors") { window.location.href = '/pages/group' }
+	       		if($.trim(data) === "no_errors") { window.location.href = 'pages/group' }
 	       		else $(".login__error").html($.trim(data));
 	       }
 	});	
