@@ -99,7 +99,7 @@
 		//Если добавили нового студента
 		if(isset($_POST["new_s_name"])){
 			//Первые буквы в верхний регистр
-			$s_name = mb_convert_case($_POST["new_s_name"], MB_CASE_TITLE);
+			$s_name = mb_convert_case($_POST["new_s_name"], MB_CASE_TITLE, "UTF-8");
 			$query = mysqli_query($con, "INSERT INTO students (`student_ID`, `s_name`, `s_group`) VALUES (NULL, '$s_name', '$group')");
 		}
 		//Если нажали удалить студента
@@ -110,7 +110,7 @@
 		//Если нажали редактировать студента
 		if(isset($_POST["edit_stud"])){
 			$s_ID = $_POST["edit_stud"];
-			$new_name = $s_name = mb_convert_case($_POST["new_name"], MB_CASE_TITLE);
+			$new_name = $s_name = mb_convert_case($_POST["new_name"], MB_CASE_TITLE, "UTF-8");
 			$query = mysqli_query($con, "UPDATE students SET s_name='$new_name' WHERE student_ID='$s_ID'");
 		}
 ?>
