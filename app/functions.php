@@ -161,7 +161,7 @@
 	//------------ПОСЕЩЕНИЕ-------------
 	if(isset($_POST["chose_date"])){
 ?>
-	<table class="table">
+	<table class="table" data-aos="zoom-in" data-aos-duration='700'>
 		<tr>
 			<th>№</th>
 			<th>ФИО</th>
@@ -175,7 +175,7 @@
 				$curator = mysqli_fetch_array($query);
 				$c_group = $curator["group_ID"];
 				//Находим группу куратора
-				$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$c_group'");
+				$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$c_group' ORDER BY s_name ASC");
 
 				$curr_date = $_POST["chose_date"];
 

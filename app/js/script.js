@@ -20,12 +20,13 @@ $(function(){
         }
         return false;
     });
+    AOS.init();
 });
 
 
 //Добавление, удаление выходного дня при клике
 //+ посещение
-$(document).on('click', '.weekend',function(e) {
+$(document).on('click', '.month_table .weekend',function(e) {
 	//Если в "Посещении" дата - выходной, то false
 	if($(this).hasClass("date_off")){ return false; }
 
@@ -191,8 +192,8 @@ $(document).on('keyup blur', '.stud_new_name', function(e) {
 
 //------Псоещение-------
 $(document).on("click", ".date_on", function(){
-	$("td .weekend__red").removeClass("weekend__red");
-	$(this).addClass("weekend__red");
+	$("td .weekend_select").removeClass("weekend_select");
+	$(this).addClass("weekend_select");
 
 	var date = "chose_date="+$(this).attr("data-date");
 	$.ajax({

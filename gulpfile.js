@@ -35,7 +35,8 @@ browserSync.init({
 
 gulp.task('scripts', function(){
 	return gulp.src([
-		'app/libs/jquery/dist/jquery.min.js'
+		'app/libs/jquery/dist/jquery.min.js',
+		'app/libs/aos/dist/aos.js'
 	])
 	.pipe(concat('libs.min.js'))
 	.pipe(uglify())
@@ -43,7 +44,7 @@ gulp.task('scripts', function(){
 });
 
 gulp.task('css-libs', ['sass'], function(){
-	return gulp.src('app/css/main.css')
+	return gulp.src(['app/css/main.css'])
 	.pipe(cssnano())
 	.pipe(rename({suffix: '.min'}))
 	.pipe(gulp.dest('app/css'))

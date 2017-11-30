@@ -214,23 +214,30 @@ input {
     margin-top: 50px; }
   .main .table {
     border-collapse: collapse;
-    -webkit-box-shadow: 0 0px 23px -3px rgba(72, 100, 241, 0.15);
-            box-shadow: 0 0px 23px -3px rgba(72, 100, 241, 0.15);
     margin: 0 auto;
     margin-bottom: 25px;
     -webkit-border-radius: 4px;
             border-radius: 4px; }
     .main .table th, .main .table td {
-      border-bottom: 1px solid #e2e2e2;
-      font-family: "Roboto-Light", sans-serif;
-      font-weight: normal;
       position: relative;
-      padding: 10px 15px; }
+      padding: 10px 30px;
+      color: #555658; }
+    .main .table th {
+      border-bottom: 1px solid #dadef9;
+      padding-top: 0;
+      font-family: "Raleway-SemiBold", sans-serif;
+      font-weight: 700;
+      color: #212121;
+      padding-bottom: 20px; }
+      .main .table th:nth-child(2) {
+        padding-left: 15px; }
     .main .table tr:hover td {
-      background: rgba(55, 105, 211, 0.05); }
+      background: #f6f6f6; }
+    .main .table tr:nth-child(2n+1) td {
+      background: #f6f6f6; }
     .main .table td {
       background: none;
-      color: #7b7b7b;
+      color: #808194;
       font-family: "Raleway-SemiBold", sans-serif; }
       .main .table td:hover .del_stud, .main .table td:hover .edit_stud {
         position: absolute;
@@ -258,12 +265,15 @@ input {
         font-family: "Roboto-Medium", sans-serif; }
       .main .table td:nth-child(2) {
         padding-right: 70px;
-        text-align: left; }
+        text-align: left;
+        padding-left: 15px; }
     .main .table .table_name {
       min-width: 300px;
       text-align: left; }
   .main #add_student {
     position: relative;
+    width: 362px;
+    margin: 0 auto;
     margin-top: 50px; }
     .main #add_student input[type="text"] {
       padding: 8px 25px;
@@ -297,12 +307,10 @@ input {
     background: transparent;
     font-family: "Roboto-Light", sans-serif;
     color: #616161; }
-  .main .attend_table .table td:nth-of-type(3n) {
-    border: 1px solid #e2e2e2; }
-  .main .attend_table .table td:nth-of-type(4n) {
+  .main .attend_table .table td {
     border: 1px solid #e2e2e2; }
   .main .attend_table .table td:nth-of-type(5n) {
-    border: 1px solid #e2e2e2; }
+    border-right: none; }
   .main .month {
     display: inline-block;
     font-family: "Lato";
@@ -315,6 +323,13 @@ input {
       color: #fff;
       padding: 5px 0;
       text-shadow: 0 2px 2px rgba(0, 0, 0, 0.15); }
+    .main .month .month_select td {
+      padding: 5px; }
+    .main .month .weekend_select {
+      background: #da5959;
+      color: #fff;
+      -webkit-border-radius: 50%;
+              border-radius: 50%; }
     .main .month .week_name {
       font-family: "Raleway-SemiBold", sans-serif; }
     .main .month .weekend {
@@ -339,6 +354,9 @@ input {
 
 .report:first-of-type {
   margin: 0; }
+
+.main_nopadding {
+  padding: 50px 0; }
 
 .report {
   border: 1px solid rgba(0, 0, 0, 0.15);

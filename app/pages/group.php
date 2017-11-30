@@ -11,7 +11,7 @@
 	}
 ?>
 
-<main class="main">
+<main class="main main_nopadding">
 	<div class="group">
 		<?php
 			$curator_ID = $_SESSION["curator_ID"];
@@ -30,8 +30,8 @@
 				<div class="group_table">
 					<table class="table">
 						<tr>
-							<th class="table_num">№</th>
-							<th class="table_name">ФИО</th>
+							<th class="table_num">#</th>
+							<th class="table_name">ФИО студента</th>
 						</tr>
 						<?php
 							$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$group' ORDER BY s_name ASC");

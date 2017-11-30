@@ -6,17 +6,17 @@
 		header("Location: ../index");
 	}	
 ?>
-<main class="main">
+<main class="main main_nopadding">
 	<?php
 		//Если нет студентов, то ничего не выводим
 		$group = $_SESSION["curator_group"];
 		$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$group'");
-		if(mysqli_num_rows($query) == 0) die("Нет студентов.");
+		if(mysqli_num_rows($query) == 0) die("<div style='padding: 0 80px;'>Нет студентов.</div>");
 
 		//Если сегодня выходной, то ничего не выводить
 		$curr_date = date('d').date('m').date('y');
 		$query = mysqli_query($con, "SELECT * FROM weekends WHERE date='$curr_date'");
-		if(mysqli_num_rows($query) != 0) die("Сегодня выходной");
+		if(mysqli_num_rows($query) != 0) die("<div style='padding: 0 80px;'>Сегодня выходной</div>");
 
 		function getDates($year){
 		    $dates = array();
@@ -77,7 +77,7 @@
 		?></h1>
 <!--КАЛЕНДАРЬ НА МЕСЯЦ-->
 <div class="month month__nomargin">
-<table class="month_table">
+<table class="month_select">
     <tr>
         <th class="week_name"><?php echo implode('</th><th class="week_name">', $rusweeks); ?></th>
     </tr>
@@ -92,7 +92,7 @@
             		$curr_date = date('d').date('m').date('y');
 								$query = mysqli_query($con, "SELECT * FROM weekends WHERE date='$date'");
 								      		
-            		echo "<span class='weekend ".($days[$day] == date('d') ? "weekend__red date_on' data-date='$date'" : (($date > $curr_date || mysqli_num_rows($query) != 0) ? "date_off'" : "date_on' data-date='$date'")).">".$days[$day]."</span>";
+            		echo "<span class='weekend ".($days[$day] == date('d') ? "weekend_select date_on' data-date='$date'" : (($date > $curr_date || mysqli_num_rows($query) != 0) ? "date_off'" : "date_on' data-date='$date'")).">".$days[$day]."</span>";
             	}
             ?>
         </td>               
@@ -105,7 +105,7 @@
 
 <div class="group_table">
 <div class="attend_table">
-	<table class="table">
+	<table class="table" data-aos="zoom-in" data-aos-duration='700'>
 		<tr>
 			<th>№</th>
 			<th>ФИО</th>

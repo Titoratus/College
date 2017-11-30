@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<script src="<?php if($page != "Вход") echo "../"; ?>js/font-loader.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="<?php if($page != "Вход") echo "../"; ?>css/main.min.css">
+	<link rel="stylesheet" href="<?php if($page != "Вход") echo "../"; ?>css/main.css">
+	<link rel="stylesheet" href="<?php if($page != "Вход") echo "../"; ?>css/aos.css">
 	<title><?php echo $page; ?></title>
 </head>
 <body <?php if($page == "Вход") echo "class='login'"; ?>>

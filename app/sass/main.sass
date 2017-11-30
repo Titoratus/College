@@ -207,24 +207,34 @@ input
 
 	.table
 		border-collapse: collapse
-		box-shadow: 0 0px 23px -3px rgba(72, 100, 241, 0.15)
 		margin: 0 auto			
 		margin-bottom: 25px
 		border-radius: 4px
 
 		th, td
-			border-bottom: 1px solid #e2e2e2
-			font-family: $fourth_font
-			font-weight: normal
 			position: relative
-			padding: 10px 15px
+			padding: 10px 30px
+			color: #555658
+
+		th
+			border-bottom: 1px solid #dadef9
+			padding-top: 0
+			font-family: $main_font
+			font-weight: 700
+			color: #212121
+			padding-bottom: 20px
+			&:nth-child(2)
+				padding-left: 15px
 
 		tr:hover td
-			background: rgba(55, 105, 211, 0.05)
+			background: #f6f6f6
+
+		tr:nth-child(2n+1) td
+			background: #f6f6f6
 
 		td
 			background: none
-			color: #7b7b7b
+			color: #808194
 			font-family: $main_font
 			&:hover
 				.del_stud, .edit_stud
@@ -257,6 +267,7 @@ input
 			&:nth-child(2)
 				padding-right: 70px
 				text-align: left
+				padding-left: 15px
 
 		.table_name
 			min-width: 300px
@@ -264,7 +275,9 @@ input
 
 	#add_student
 		position: relative
-		margin-top: 50px
+		width: 362px
+		margin: 0 auto
+		margin-top: 50px		
 
 		input[type="text"]
 			padding: 8px 25px
@@ -301,12 +314,11 @@ input
 				font-family: $fourth_font
 				color: #616161
 
-			td:nth-of-type(3n)
+			td
 				border: 1px solid #e2e2e2
-			td:nth-of-type(4n)
-				border: 1px solid #e2e2e2
+				
 			td:nth-of-type(5n)
-				border: 1px solid #e2e2e2
+				border-right: none
 
  //Выходные
 	.month
@@ -322,6 +334,15 @@ input
 			color: #fff
 			padding: 5px 0
 			text-shadow: 0 2px 2px rgba(0,0,0,.15)
+
+		.month_select
+			td
+				padding: 5px
+
+		.weekend_select
+			background: #da5959
+			color: #fff
+			border-radius: 50%
 
 		.week_name
 			font-family: $main_font
@@ -355,6 +376,9 @@ input
 //Отчёты
 .report:first-of-type
 	margin: 0
+
+.main_nopadding
+	padding: 50px 0
 
 .report
 	border: 1px solid rgba(0,0,0,.15);
