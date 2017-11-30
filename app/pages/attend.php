@@ -108,7 +108,7 @@
 	<table class="table" data-aos="zoom-in" data-aos-duration='700'>
 		<tr>
 			<th>№</th>
-			<th>ФИО</th>
+			<th>ФИО студента</th>
 			<th>П</th>
 			<th>У</th>
 			<th>Б</th>

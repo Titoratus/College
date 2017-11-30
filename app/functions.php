@@ -50,7 +50,7 @@
 			//Заносим в groups
 			$query = mysqli_query($con, "INSERT INTO groups (`group_ID`, `course`) VALUES ('$group_ID', '$group_course')");
 			if(!$query) die("group_exists");
-			$_SESSION["curator_group"] = $group;			
+			$_SESSION["curator_group"] = $group_ID;			
 
 			//Заносим в curator_group
 			$curator_ID = $_SESSION["curator_ID"];
@@ -66,8 +66,8 @@
 	<div class="group_table">
 		<table class="table">
 			<tr>
-				<th class="table_num">№</th>
-				<th class="table_name">ФИО</th>
+				<th class="table_num">#</th>
+				<th class="table_name">ФИО студента</th>
 			</tr>
 			<?php
 				$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$group' ORDER BY s_name ASC");
@@ -82,7 +82,7 @@
 		</table>
 
 		<form id="add_student" action="" method="POST">
-			<input type="text" data-group="<?php echo $group; ?>" name="new_s_name" autocomplete="off" required>
+			<input type="text" data-group="<?php echo $group; ?>" name="new_s_name" placeholder="ФИО нового студента" autocomplete="off" required>
 			<input type="submit" value="+">
 		</form>		
 	</div>
@@ -116,8 +116,8 @@
 ?>
 	<table class="table">
 		<tr>
-			<th class="table_num">№</th>
-			<th class="table_name">ФИО</th>
+			<th class="table_num">#</th>
+			<th class="table_name">ФИО студента</th>
 		</tr>
 		<?php
 			$query = mysqli_query($con, "SELECT * FROM students WHERE s_group='$group' ORDER BY s_name ASC");
@@ -163,8 +163,8 @@
 ?>
 	<table class="table" data-aos="zoom-in" data-aos-duration='700'>
 		<tr>
-			<th>№</th>
-			<th>ФИО</th>
+			<th>#</th>
+			<th>ФИО студента</th>
 			<th>П</th>
 			<th>У</th>
 			<th>Б</th>

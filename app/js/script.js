@@ -119,7 +119,12 @@ $(document).on('keypress', '.new_group', function(e){
 			    url: "../functions.php",
 			    data: data,
 			    success: function(data) {
-						   $(".group").html(data);
+			    			if($.trim(data) === "not_numeric"){
+									$(".error").html("Название группы только из цифр!");
+									$(".error").fadeIn(300);
+									return false;			    				
+			    			}
+			    			else $(".group").html(data);
 						 }
 			  });
 			}
@@ -150,7 +155,7 @@ $(document).on('submit', '#add_student', function(e) {
 
 //Удаление студента
 $(document).on('click', '.del_stud', function(e) {
-		if(confirm("Вы уверены?")){
+		if(confirm("Вся информация о студенте будет удалена. Вы уверены?")){
 		  var student = "del_stud="+$(this).parent().attr("data-student");
 		  student = student + "&group="+$(this).parent().attr("data-group");
 		  $.ajax({

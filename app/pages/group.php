@@ -19,7 +19,11 @@
 			//Если нет группы
 			if(mysqli_num_rows($query)==0){
 				?>
-				<div class="group_name"><input class="new_group" placeholder="№ группы" maxlength="3" type="text" autofocus><div style="display: none;" class="error"></div></div>
+				<label class="c-label" for="ng">Введите название группы</label>
+				<div class="group_name">
+					<input id="ng" class="new_group" placeholder="№ группы" maxlength="3" type="text" autofocus>
+					<div style="display: none;" class="error"></div>
+				</div>
 				<?php
 			}
 			else {
