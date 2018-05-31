@@ -31,7 +31,7 @@
 		    } 
 		    return $dates;   
 		}
-		$dates = getDates(2017); 
+		$dates = getDates(date('Y')); 
 		$weekdays = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
 		$rusweeks = array('Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'); ?>
 		<?php foreach($dates as $month => $weeks) { ?>
