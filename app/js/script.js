@@ -212,7 +212,7 @@ $(document).on("click", ".date_on", function(){
 });
 
 $(document).on("keypress", ".mark", function(e){
-	if(e.keyCode < 48 || e.keyCode > 57) return false;
+	if(e.which < 48 || e.which > 57) return false;
 });
 
 $(document).on("blur", ".mark", function(){

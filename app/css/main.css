@@ -216,7 +216,8 @@ input {
         color: rgba(255, 255, 255, 0.65);
         font-size: 0.9em; }
   .main .group_table {
-    margin-top: 50px; }
+    margin-top: 50px;
+    overflow: hidden; }
   .main .table {
     border-collapse: collapse;
     margin: 0 auto;
